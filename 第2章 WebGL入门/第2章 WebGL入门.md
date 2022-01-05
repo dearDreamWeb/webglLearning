@@ -41,7 +41,67 @@ function main(){
 效果图：
 ![0.png](./images/0.png)
 
-[完整代码](examples/example0.html)
+[完整例子代码](examples/example0.html)
 
 `<canvas>`的坐标系统是以`左上角为原点`，`横轴为x轴`，`纵轴为y轴`。如下图所示：
 ![1.png](./images/1.png)
+
+## 最短的WebGL程序：清空绘图区
+下面将会编写一个最短的webgl程序，清空（用黑色填充）了`<canvas>`定义的矩形区域。  
+代码如下：
+```js
+function main() {
+    // 获取canvas元素
+    var canvas = document.getElementById('example');
+    // 获取webgl绘图上下文
+    var gl = canvas.getContext('webgl');
+    if(!gl){
+        console.log('获取webgl绘图上下文失败');
+        return;
+    }
+    // 指定清空<canvas>的颜色
+    gl.clearColor(0.0,0.0,0.0,1.0);
+    // 清空canvas
+    gl.clear(gl.COLOR_BUFFER_BIT);
+}
+```
+运行效果：
+![2.png](images/2.png)
+[完整例子代码](examples/example1.html)  
+
+main函数的执行流程如下：
+- 获取canvas元素
+- 获取webgl的绘图上下文
+- 设置背景颜色
+- 清空canvas
+
+`gl.clearColor(0.0,0.0,0.0,1.0)`是将背景色指定为黑色，参数为rgba，分别是红色，绿色，蓝色和不透明度。rgb的三个参数的取值范围是`0~255`，值越高颜色越亮；a的取值范围是`0~1`，值越高越不透明。  
+背景颜色被指定后，将会存在WebGL系统中，在下次调用gl.clearColor()方法之前不会改变，也就是说下次还想用同一种颜色清空canvas，不用再重新指定颜色了。  
+
+`gl.clear(gl.COLOR_BUFFER_BIT)`的参数是gl.COLOR_BUFFER_BIT，不表示绘图区域的canvas。由于WebGL的`gl.clear()`方法来自于`OpenGL`，`它基于多种基本缓冲区模型`。清空绘图区域实际上是清空了颜色缓冲区，参数gl.COLOR_BUFFER_BIT是告诉WebGL`清空颜色缓冲区`。
+
+<b>gl.clear(buffer)说明</b>
+<table>
+    <tr>
+        <th>参数</th>
+        <th>返回值</th>
+        <th>错误</th>
+    </tr>
+    <tr>
+         <td>
+         <p>buffer --> 指定待清空的缓冲区</p>
+         <p>gl.COLOR_BUFFER_BIT --> 指定颜色缓冲区</p>
+         <p>gl.DEPTH_BUFFER_BIT --> 指定深度缓冲区</p>
+         <p>gl.STENCIL_BUFFER_BIT --> 指定模板缓冲区</p>
+         </td>
+         <td>无</td>
+         <td>INVALID_VALUE --> 缓冲区不是以上三种类型</td>
+    </tr>
+</table>
+
+清空缓冲区默认颜色及其相关函数
+| 缓冲区名称 | 默认值 | 相关函数 |
+| --- | --- | --- |
+| 颜色缓存区 | (0.0, 0.0, 0.0, 0.0) | gl.clearColor(red, green, blue, alpha) |
+| 深度缓冲区 | 1.0 | gl.clearDepth(depth) |
+| 模板缓冲区 | 0 | gl.clearStencil(s) |
