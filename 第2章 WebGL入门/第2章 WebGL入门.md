@@ -38,12 +38,14 @@ function main(){
     ctx.fillRect(120,10,150,150); // 使用填充颜色填充矩形
 }
 ```
-效果图：
+效果图：  
+
 <img src='./images/0.png' width=400 height=400 style='display: block'>
 
 [完整例子代码](examples/example0.html)
 
-`<canvas>`的坐标系统是以`左上角为原点`，`横轴为x轴`，`纵轴为y轴`。如下图所示：
+`<canvas>`的坐标系统是以`左上角为原点`，`横轴为x轴`，`纵轴为y轴`。如下图所示：  
+
 <img src='./images/1.png' width=400 height=400 style='display: block'>
 
 ## 最短的WebGL程序：清空绘图区
@@ -65,8 +67,10 @@ function main() {
     gl.clear(gl.COLOR_BUFFER_BIT);
 }
 ```
-运行效果：
-<img src='./images/2.png' width=400 height=400 style='display: block'>  
+运行效果：  
+
+<img src='./images/2.png' width=400 height=400 style='display: block'>    
+
 [完整例子代码](examples/example1.html)  
 
 main函数的执行流程如下：
