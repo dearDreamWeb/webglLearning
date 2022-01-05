@@ -4,6 +4,6 @@
 # 目录
 
 ## 第1章 WebGl概述
-[第1章 WebGl概述](./第1章%20WebGL概述/第1章%20WebGl概述.md)
+[第1章 WebGl概述](./第1章%20WebGL概述/第1章%20WebGL概述.md)
 ## 第2章 WebGl入门
 [第2章 WebGl入门](./第2章%20WebGL入门/第2章%20WebGL入门.md)
