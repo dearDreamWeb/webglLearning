@@ -39,12 +39,12 @@ function main(){
 }
 ```
 效果图：
-<img src='./images/0.png' width=400 height=400>
+<img src='./images/0.png' width=400 height=400 style='display: block'>
 
 [完整例子代码](examples/example0.html)
 
 `<canvas>`的坐标系统是以`左上角为原点`，`横轴为x轴`，`纵轴为y轴`。如下图所示：
-<img src='./images/1.png' width=400 height=400>
+<img src='./images/1.png' width=400 height=400 style='display: block'>
 
 ## 最短的WebGL程序：清空绘图区
 下面将会编写一个最短的webgl程序，清空（用黑色填充）了`<canvas>`定义的矩形区域。  
@@ -66,7 +66,7 @@ function main() {
 }
 ```
 运行效果：
-<img src='./images/2.png' width=400 height=400>
+<img src='./images/2.png' width=400 height=400 style='display: block'>  
 [完整例子代码](examples/example1.html)  
 
 main函数的执行流程如下：
