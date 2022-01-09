@@ -1,5 +1,5 @@
 # 第2章 WebGL入门
-## 什么是Canvas？
+## <div id='canvas'>什么是Canvas？</div>
 HTML5之前网页想要显示图像只能用HTML提供的原生的`<img>`标签,但只能显示静态的图片，不能进行实时的绘制和渲染。HTML5出现之后，引入了`<canvas>`标签，允许JavaScript动态地绘制图形。
 
 ## 使用`<canvas>`标签
@@ -48,7 +48,7 @@ function main(){
 
 <img src='./images/1.png' width=400 height=400 style='display: block'>
 
-## 最短的WebGL程序：清空绘图区
+## <div id='short_webgl'>最短的WebGL程序：清空绘图区</div>
 下面将会编写一个最短的webgl程序，清空（用黑色填充）了`<canvas>`定义的矩形区域。  
 代码如下：
 ```js

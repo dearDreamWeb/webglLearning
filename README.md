@@ -7,3 +7,5 @@
 [第1章 WebGl概述](./第1章%20WebGL概述/第1章%20WebGL概述.md)
 ## 第2章 WebGl入门
 [第2章 WebGl入门](./第2章%20WebGL入门/第2章%20WebGL入门.md)
+- [什么是Canvas?](./第2章%20WebGL入门/第2章%20WebGL入门.md#canvas)
+- [最短的WebGL程序：清空绘图区](./第2章%20WebGL入门/第2章%20WebGL入门.md#short_webgl)
