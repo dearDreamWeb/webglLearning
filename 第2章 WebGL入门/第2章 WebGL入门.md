@@ -104,8 +104,65 @@ main函数的执行流程如下：
 </table>
 
 清空缓冲区默认颜色及其相关函数
-| 缓冲区名称 | 默认值 | 相关函数 |
-| --- | --- | --- |
+| 缓冲区名称 | 默认值               | 相关函数                               |
+| ---------- | -------------------- | -------------------------------------- |
 | 颜色缓存区 | (0.0, 0.0, 0.0, 0.0) | gl.clearColor(red, green, blue, alpha) |
-| 深度缓冲区 | 1.0 | gl.clearDepth(depth) |
-| 模板缓冲区 | 0 | gl.clearStencil(s) |
+| 深度缓冲区 | 1.0                  | gl.clearDepth(depth)                   |
+| 模板缓冲区 | 0                    | gl.clearStencil(s)                     |
+
+## <div id='point_vision_1.0'>绘制一个点（版本1）</div>
+webgl程序在进行绘制的时候依赖于`着色器`，着色器强大且复杂，仅靠一条简单的绘图指令是不能操作的。  
+### 着色器是什么？
+着色器程序是需要以`字符串`的形式嵌入到JavaScript中。  
+WebGL需要两种着色器：
+- `顶点着色器`：顶点着色器是用来描述顶点特征（如：位置、颜色等）的程序。`顶点`是指二维或三维空间中的一点，比如二维或三维空间中的端点或交点。
+- `片元着色器`：将每个`片元`进行处理的过程（如光照）。`片元`是一个WebGL的术语，可以理解为`像素`。  
+    - 什么是图元？
+    图元是由顶点组成的。一个顶点，一条线段，一个三角形或者多边形都可以成为图元。
+    - 什么是片元？
+    片元是在图元经过光栅化阶段后，被分割成一个个像素大小的基本单位。光栅化的过程比较复杂，暂不解释。
+
+下图为从执行JavaScript程序到在浏览器显示结果的过程
+<img src='./images/3.png' height=400 style='display: block'/>
+
+接下来将是webgl绘制一个点的例子：
+```js
+import { initShaders } from '../../src/utils/common.js'
+
+main();
+function main() {
+    // 获取canvas元素
+    var canvas = document.getElementById('example');
+    // 获取webgl绘图上下文
+    var gl = canvas.getContext('webgl');
+    if (!gl) {
+        console.log('获取webgl绘图上下文失败');
+        return;
+    }
+    // 顶点着色器
+    var VSHADER_SOURCE = `
+        void main() {
+            gl_Position = vec4(0.0,0.0,0.0,1.0); // 设置坐标
+            gl_PointSize = 10.0; // 设置尺寸
+        } 
+    `;
+    // 片元着色器
+    var FSHADER_SOURCE = `
+        void main () {
+            gl_FragColor = vec4(1.0,0.0,0.0,1.0); // 设置颜色
+        }
+    `;
+
+    // 判断着色器是否编译和连接成功 
+    if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+        return;
+    }
+
+    // 指定清空<canvas>的颜色
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    // 清空canvas
+    gl.clear(gl.COLOR_BUFFER_BIT);
+    // 绘制一个点
+    gl.drawArrays(gl.POINTS, 0, 1);
+}
+```

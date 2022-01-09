@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        canvas {
+            border: 1px solid #ccc;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas id='example' width="400" height="400"></canvas>
+    <script type="module">
+        import { initShaders } from '../../src/utils/common.js'
+
+        main();
+        function main() {
+            // 获取canvas元素
+            var canvas = document.getElementById('example');
+            // 获取webgl绘图上下文
+            var gl = canvas.getContext('webgl');
+            if (!gl) {
+                console.log('获取webgl绘图上下文失败');
+                return;
+            }
+            // 顶点着色器
+            var VSHADER_SOURCE = `
+                void main() {
+                    gl_Position = vec4(0.0,0.0,0.0,1.0); // 设置坐标
+                    gl_PointSize = 10.0; // 设置尺寸
+                } 
+            `;
+            // 片元着色器
+            var FSHADER_SOURCE = `
+                void main () {
+                    gl_FragColor = vec4(1.0,0.0,0.0,1.0); // 设置颜色
+                }
+            `;
+
+            if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
+                return;
+            }
+
+            // 指定清空<canvas>的颜色
+            gl.clearColor(0.0, 0.0, 0.0, 1.0);
+            // 清空canvas
+            gl.clear(gl.COLOR_BUFFER_BIT);
+            // 绘制一个点
+            gl.drawArrays(gl.POINTS, 0, 1);
+        }
+    </script>
+</body>
+
+</html>
