@@ -127,6 +127,7 @@ WebGL需要两种着色器：
 
 ### <div id='initV'>初始化着色器</div>
 大部分的WebGL程序都会遵循以下流程：
+
 <img src='./images/4.png' width=400 height=500 style='display: block'/>
 
 之后的例子中会经常见到`initShaders`辅助函数，该函数是判断着色器是否编译成功和程序是否连接成功。该方法放在本仓库的[src/utils/common.js](./../src/utils/common.js)中。下面介绍一下该函数的参数：
