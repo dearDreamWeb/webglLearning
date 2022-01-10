@@ -112,7 +112,7 @@ main函数的执行流程如下：
 
 ## <div id='point_vision_1.0'>绘制一个点（版本1）</div>
 webgl程序在进行绘制的时候依赖于`着色器`，着色器强大且复杂，仅靠一条简单的绘图指令是不能操作的。  
-### 着色器是什么？
+### <div id='initShaders'>着色器是什么？</div>
 着色器程序是需要以`字符串`的形式嵌入到JavaScript中。  
 WebGL需要两种着色器：
 - `顶点着色器`：顶点着色器是用来描述顶点特征（如：位置、颜色等）的程序。`顶点`是指二维或三维空间中的一点，比如二维或三维空间中的端点或交点。
@@ -124,6 +124,64 @@ WebGL需要两种着色器：
 
 下图为从执行JavaScript程序到在浏览器显示结果的过程
 <img src='./images/3.png' height=400 style='display: block'/>
+
+### <div id='initV'>初始化着色器</div>
+大部分的WebGL程序都会遵循以下流程：
+<img src='./images/4.png' width=400 height=500 style='display: block'/>
+
+之后的例子中会经常见到`initShaders`辅助函数，该函数是判断着色器是否编译成功和程序是否连接成功。该方法放在本仓库的[src/utils/common.js](./../src/utils/common.js)中。下面介绍一下该函数的参数：
+
+| 参数 | 说明 |
+| --- | --- |
+| gl | 指定渲染上下文 |
+| vshader | 指定顶点着色器程序代码 |
+| vshader | 指定片元着色器程序代码 |
+
+| 返回值 | 说明 |
+| --- | --- |
+| true | 初始化着色器完成 |
+| false | 初始化着色器失败 |
+
+`着色器是运行在WebGL系统中`而非JavaScript程序中。WebGL的程序包括两部分：`运行在浏览器中的JavaScript代码`和`运行在WebGL系统的着色器程序`。 下图为initShaders函数的执行过程：
+
+<img src='./images/5.png' height=400 style='display: block'/>
+
+### <div id='vshader'>顶点着色器</div>
+下面为顶点着色器设置了位置和颜色：
+```js
+// 顶点着色器
+var VSHADER_SOURCE = `
+    void main() {
+        gl_Position = vec4(0.0,0.0,0.0,1.0); // 设置坐标
+        gl_PointSize = 10.0; // 设置尺寸
+    } 
+`;
+```
+可以看出顶点着色器程序和C语言是一样的，必须包含一个`main()`函数。main()前面的关键字`void`表示这个函数`不会有返回值`。和typescript中的函数定义返回类型是相似的。注意`main()不能指定参数`，每行着色器程序都要以`;`结尾，否则会编译失败，这与JavaScript弱脚本语言的是有差距的。  
+`gl_Position`和`gl_PointSize`属于顶点着色的`内置变量`，不能随意命名。
+
+| 类型和变量名 | 描述 |
+| --- | --- |
+| vec4 gl_Position | 表示顶点位置 |
+| float gl_PointSize | 表示点的尺寸（像素点） |  
+
+注意：gl_Position变量是必须赋值的，而gl_PointSize是非必须的，因为默认值是1.0;  
+以下是GLSE中的数据类型：
+
+| 类型 | 描述 |
+| --- | --- |
+| float | 表示浮点数 |
+| vec4 | 表示由四个浮点数组成的矢量 | 
+GLSL ES是强类型的编程语言，float是浮点数，不能定义成int整型，否则编译失败。  
+正确例子：
+```js
+gl_PointSize = 10.0;
+```
+错误例子：
+```js
+gl_PointSize = 10;
+```
+gl_Position是有4个分量的，这4个分量组成的矢量被称为`齐次坐标`。齐次坐标是四维的，`齐次坐标(x,y,z,w)`等价于`三维坐标的(x/w,y/w,z/w)`。如果齐次坐标的`w`等于`1`，那就可以当三维坐标使用。w的值必须大于0，如果`w趋近于0`，那么它表示`点是无穷远的`，所以在齐次坐标中有无穷远的概念。
 
 接下来将是webgl绘制一个点的例子：
 ```js
