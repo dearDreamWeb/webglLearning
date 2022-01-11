@@ -184,6 +184,62 @@ gl_PointSize = 10;
 ```
 gl_Position是有4个分量的，这4个分量组成的矢量被称为`齐次坐标`。齐次坐标是四维的，`齐次坐标(x,y,z,w)`等价于`三维坐标的(x/w,y/w,z/w)`。如果齐次坐标的`w`等于`1`，那就可以当三维坐标使用。w的值必须大于0，如果`w趋近于0`，那么它表示`点是无穷远的`，所以在齐次坐标中有无穷远的概念。
 
+### <div id='fShader'>片元着色器</div>
+顶点着色器控制点的位置和大小，片元着色器控制点的颜色。片元就是显示在屏幕上的一个像素（严格来说，片元是包括这个像素的位置、颜色和其他信息）。  以下是一个简单的片元着色器的程序：
+```js
+var FSHADER_SOURCE = `
+    void main () {
+        gl_FragColor = vec4(1.0,0.0,0.0,1.0); // 设置颜色
+    }
+`;
+```
+片元着色器将颜色赋值给了gl_FragColor，该变量是片元着色器的唯一的内置变量。
+
+| 类型和变量名 | 描述 |
+| --- | --- |
+| vec4 gl_FragColor | 指定片元颜色(RGBA格式) |
+注意：改RGBA格式和css中的RGBA是不太一样的，css中color的RGBA格式是rgb每位的取值范围是`0-255`。但是gl_FragColor的RGBA中rgb每位的取值范围是`0.0-1.0`。
+
+### <div id='draw_option'>绘制操作</div>
+着色器完成之后要开始绘制的操作，要先情况绘制区域，要使用`gl.drawArrays()`来进行绘制。
+```js
+gl.drawArrays(gl.POINTS, 0, 1);
+```
+gl.drawArrays可以用来绘制各种图形。  
+gl.drawArrays(mode, first, count)
+<table>
+    <tr>
+        <th>参数</th>
+        <th>返回值</th>
+        <th>错误</th>
+    </tr>
+    <tr>
+         <td>
+         <p>mode --> 指定绘制方法，如：gl.POINTS、gl.LINES、gl.LINE_STRIP、gl.LINE_LOOP、gl.TRIANGLES、gl.TRIANGLE_STRIP、gl.TRIANGLE_FAN</p>
+         <p>first --> 指定从哪个顶点开始绘制（整形数）</p>
+         <p>count --> 指定绘制需要用到多少个顶点（整形数）</p>
+         </td>
+         <td>无</td>
+         <td>
+         <p>INVALID_ENUM --> 传入的mode参数不是上述的参数之一</p>
+         <p>INVALID_VALUE --> 参数first或count是负数</p>
+         </td>
+    </tr>
+</table>
+
+由于绘制的是单独点，所以设置的第一个参数是`gl.POINTS`，第二个参数是`0`，表示`从第一个顶点开始绘制`，第三个参数为`1`，表示`只绘制一个点`。  
+
+### <div id='webgl_origin'>WebGL坐标系统</div>
+WebGL是处理三维图形的，因此具有X轴、Y轴和Z轴。在WebGL中，你`正对屏幕`时，`X轴是水平的（正方形为右）`，`Y轴是垂直的（正方向为下）`，`Z轴垂直于屏幕（正方向为外）`。注意：观察者眼睛位于原点(0.0, 0.0, 0.0)处，`视线是沿着Z轴的负方向的`。WebGL是遵循右手坐标系的。
+
+左图为正对屏幕的情况下，右图为观察者眼睛位于原点(0.0, 0.0, 0.0)的情况下：
+
+<img src='./images/6.png' height=400 style='display: block'/>
+
+右手坐标系原则如下：
+
+<img src='./images/7.png' width=400 height=400 style='display: block'/>
+
 接下来将是webgl绘制一个点的例子：
 ```js
 import { initShaders } from '../../src/utils/common.js'
@@ -225,3 +281,6 @@ function main() {
     gl.drawArrays(gl.POINTS, 0, 1);
 }
 ```
+运行效果如下：
+
+<img src='./images/8.png' width=400 height=400 style='display: block'/>

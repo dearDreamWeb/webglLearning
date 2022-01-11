@@ -13,3 +13,6 @@
 - [着色器是什么？](./第2章%20WebGL入门/第2章%20WebGL入门.md#initShaders)
 - [初始化着色器](./第2章%20WebGL入门/第2章%20WebGL入门.md#initV)
 - [顶点着色器](./第2章%20WebGL入门/第2章%20WebGL入门.md#vshader)
+- [片元着色器](./第2章%20WebGL入门/第2章%20WebGL入门.md#fShader)
+- [绘制操作](./第2章%20WebGL入门/第2章%20WebGL入门.md#draw_option)
+- [WebGL坐标系统](./第2章%20WebGL入门/第2章%20WebGL入门.md#webgl_origin)
